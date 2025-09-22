@@ -1,5 +1,7 @@
 #include "stdio.h"
+#include "stdlib.h"
 
+// True if c is a tab or space
 int space_char(char c)
 {
   if ((c == '\t' || c == ' ') && c != 0) {
@@ -8,6 +10,7 @@ int space_char(char c)
   return 0;
 }
 
+// True if c is not a tab or space
 int non_space_character(char c)
 {
   if ((c != '\t' && c != ' ') && c != 0) {
@@ -16,6 +19,7 @@ int non_space_character(char c)
   return 0;
 }
 
+// Returns pointer to start of the next token
 char *token_start(char *str)
 {
   while (*str != '\0') {
@@ -29,6 +33,7 @@ char *token_start(char *str)
   return 0;
 }
 
+// Returns pointer to char after the last character of the token
 char *token_terminator(char *token)
 {
   if (non_space_character(*token) == 1) {
@@ -38,6 +43,7 @@ char *token_terminator(char *token)
   return token;
 }
 
+// Returns the number of tokens in a string
 int count_tokens(char *str)
 {
   if (*str == '\0') {
@@ -50,6 +56,27 @@ int count_tokens(char *str)
   }
   
   return 0;
+}
+
+// Returns copy of string len characters long
+char *copy_str(char *inStr, short len)
+{
+  if (inStr == NULL || len <= 0) {
+    return NULL;
+  }
+
+  char *result = malloc(len+1);
+  
+  char *iter = result;
+  for (int i = 0; i <= len+1; i++) {
+    iter = inStr[i];
+    iter++;
+
+    if (i == len+1) {
+      *iter = '\0';
+    }
+  }
+  return result;
 }
 
 int main(char c)
