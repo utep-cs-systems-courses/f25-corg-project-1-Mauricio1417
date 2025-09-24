@@ -68,9 +68,10 @@ char *copy_str(char *inStr, short len)
   char *result = malloc(len+1);
   
   char *iter = result;
-  for (int i = 0; i <= len+1; i++) {
-    iter = inStr[i];
+  for (int i = 0; i < len; i++) {
+    *iter = *inStr;
     iter++;
+    inStr++;
 
     if (i == len+1) {
       *iter = '\0';
@@ -78,28 +79,4 @@ char *copy_str(char *inStr, short len)
   }
   return result;
 }
-
-int main(char c)
-{
-  /*
-  char str[] = "   hello ugly world";
-  char *p = token_start(str);
-  printf("%c\n", *p);
-  printf("\n");
-
-  char *x = token_terminator(p);
-  printf("%c\n", *x);
-  printf("\n");
-
-  printf("%c\n", *++x);
-  printf("\n");
-  */
-
-  char str[] = "          three  tokens       here";
-  int x = count_tokens(str);
-  printf("%d\n", x);
-  printf("\n");
-  
-}
-
 
