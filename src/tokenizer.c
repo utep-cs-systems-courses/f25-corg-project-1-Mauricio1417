@@ -67,17 +67,15 @@ char *copy_str(char *inStr, short len)
   }
 
   char *result = malloc(len+1);
-  
   char *iter = result;
+  
   for (int i = 0; i < len; i++) {
     *iter = *inStr;
     iter++;
     inStr++;
-
-    if (i == len+1) {
-      *iter = '\0';
-    }
   }
+  
+  *iter = '\0';
   return result;
 }
 
@@ -90,9 +88,9 @@ char **tokenize(char *s)
   
   for (int i = 0; i < num_tokens; i++) {
     char *start = token_start(s);
-    char *end = token_terminator(s);
+    char *end = token_terminator(start);
     tokens[i] = copy_str(start, end - start);
-    s = end+1;
+    s = end;
   }
   return tokens;
 }
