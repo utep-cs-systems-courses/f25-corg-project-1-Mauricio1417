@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "stdlib.h"
+#include "tokenizer.h"
 
 // True if c is a tab or space
 int space_char(char c)
@@ -80,3 +81,33 @@ char *copy_str(char *inStr, short len)
   return result;
 }
 
+// Tokenize string
+char **tokenize(char *s)
+{
+  int num_tokens = count_tokens(s);
+  char **tokens = malloc((num_tokens + 1) * sizeof(char *));
+  tokens[num_tokens] = NULL;
+  
+  for (int i = 0; i < num_tokens; i++) {
+    char *start = token_start(s);
+    char *end = token_terminator(s);
+    tokens[i] = copy_str(start, end - start);
+    s = end+1;
+  }
+  return tokens;
+}
+
+// Print Tokens
+void print_tokens(char **tokens)
+{
+  for (int i = 0; tokens[i] != NULL; i++) {
+    printf("%s\n", tokens[i]);
+    printf("\n");
+  }
+}
+
+// free tokens from memory
+void free_tokens(char **tokens)
+{
+  printf("Hello");
+}
