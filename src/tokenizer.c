@@ -107,5 +107,8 @@ void print_tokens(char **tokens)
 // free tokens from memory
 void free_tokens(char **tokens)
 {
-  printf("Hello");
+  for (int i = 0; tokens[i] != NULL; i++) {
+    free(tokens[i]);
+  }
+  free(tokens);
 }
