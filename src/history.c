@@ -1,95 +1,79 @@
 #include "stdio.h"
+#include "stdlib.h"
 #include "history.h"
-
-typedef struct s_item {
-  int id;
-  char *str;
-  struct s_item *next;
-} Item;
-
-typedef struct s_list {
-  Item *root;
-} List;
 
 List *init_history()
 {
-  List *list = malloc(sizeof(s_list));
+  List *list = malloc(sizeof(list));
   list->root = NULL;
   return list;
 }
 
 void add_history(List *list, char *str)
 {
-  // If list does not have a root yet (first item)
+  Item *newItem = malloc(sizeof(Item));
+  newItem->str = str;
+  newItem->next = NULL;
+
+  // Adding the first item
   if (list->root == NULL) {
-    s_list *newItem = malloc(sizeof(s_list));
     newItem->id = 0;
-    newItem->str = str;
-    newItem->next = NULL;
+    list->root = newItem;
     return;
   }
-  
-  s_list *curr = list->root;
 
-  // Get last node and id of last node
-  int count = 0;
-  while (curr.next != NULL) {
+  Item *curr = list->root;
+
+  int count = 1;
+  while (curr->next != NULL) {
     curr = curr->next;
     count++;
   }
-  
-  s_list *newItem = malloc(sizeof(s_list));
-  newItem->id = count + 1;
-  newItem->str = str;
-  newItem->next = NULL;
-  
+
+  newItem->id = count++;
   curr->next = newItem;
 }
 
 char *get_history(List *list, int id)
 {
-  if (list->root == NULL) {
-    printf("%s\n", "List is empty");
-    return;
+  if (list == NULL || list->root == NULL) {
+    return NULL;
   }
 
-  s_list *curr = list->root;
+  Item *curr = list->root;
   
-  while (curr->id != id) {
+  while (curr != NULL) {
+    if (curr->id == id) {
+      return curr->str;
+    }
     curr = curr->next;
   }
-
-  return curr->str;
+  return NULL;
 }
 
-void print_history(List *list) {
+void print_history(List *list)
+{
+  Item *curr = list->root;
 
-  s_list *curr = list->root;
-  
-  while (curr.next != NULL) {
-    printf("%s\n", *curr->str);
+  while (curr != NULL) {
+    printf("%d: %s\n", curr->id, curr->str);
     curr = curr->next;
   }
-  printf("%s\n", curr->str);
 }
 
 void free_history(List *list)
 {
-  s_list *curr = list->root;
-  
-  // Free char *str
+  Item *curr = list->root;
+  Item *prev = list->root;
+
   while (curr->next != NULL) {
-    free(curr->str);
-    curr++;
+    // Free Strings
+    if (curr->str != NULL) free(curr->str);
+
+    prev = curr;
+    curr = curr->next;
+
+    free(prev);
+    free(list);
   }
-  free(curr->str);
-
-  // Free nodes
-  
 }
-
-
-
-
-
-
